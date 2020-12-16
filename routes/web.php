@@ -24,3 +24,7 @@ Route::get('/who/{name?}', function ($name = null) {
 Route::get('/who/{name}', function ($name) {
     return '...who...? What is this place? Are you...'.$name . '?';
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
