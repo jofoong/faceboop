@@ -17,12 +17,12 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('content', 512);
-            $table->bigInteger('dog_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
             //Set the foreign key constraint
-            $table->foreign('dog_id')->references('id')->
-                on('dogs')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->
+                on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

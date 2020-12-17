@@ -7,17 +7,13 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --open --config webpack/webpack.config.dev.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jolenefoong/faceboop.git"
   },
-  "keywords": [
-    "webdev"
-  ],
-  "author": "J Foong",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jolenefoong/faceboop/issues"

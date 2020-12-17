@@ -22,10 +22,10 @@ class Post extends Model
         return $this->hasMany('App\Models\Comment');
     }
 
-    public function dog()
+    public function user()
     {
-        //Each post is written by a Dog
-        return $this->belongsTo('App\Models\Dog'); 
+        //Each post is written by a user
+        return $this->belongsTo('App\Models\User'); 
     }
 
     public function tags()

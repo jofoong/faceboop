@@ -15,9 +15,9 @@ class Comment extends Model
         return $this->belongsTo('App\Models\Post');
     }
 
-    public function dog()
+    public function user()
     {
         //Each comment can only belong to one post
-        return $this->belongsTo('App\Models\Dog');
+        return $this->belongsTo('App\Models\User');
     }
 }

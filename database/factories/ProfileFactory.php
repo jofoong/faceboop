@@ -31,8 +31,8 @@ class ProfileFactory extends Factory
                 ['Border Collie', 'Pekingese', 'Golden Retriever', 'Bullmastiff', 'Irish Terrier',
                 'Lakeland Terrier', 'Samoyed', 'American Cocker Spaniel', 'Great Dane', 
                 'Siberian Husky', 'Shetland Sheepdog', 'Cavalier King Charles']),
-            //Ensure that each Profile is associated with only one Dog
-            'dog_id' =>$this->i,
+            //Ensure that each Profile is associated with only one User
+            'user_id' =>$this->i,
         ];
     }
 }

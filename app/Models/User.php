@@ -7,25 +7,25 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Dog extends Authenticatable
+class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
     public function profile()
     {
-        //A Dog has a one-to-one r/s with its Profile
+        //A User has a one-to-one r/s with its Profile
         return $this->hasOne('App\Models\Profile');
     }
 
     public function posts()
     {
-        //Each Dog has a one-to-many r/s with Posts
+        //Each User has a one-to-many r/s with Posts
         return $this->hasMany('App\Models\Post');
     }
     
     public function comments()
     {
-        //Each dog has a one-to-many r/s with Comments
+        //Each User has a one-to-many r/s with Comments
         return $this->hasMany('App\Models\Comment');
     }
     

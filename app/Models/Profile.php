@@ -10,9 +10,9 @@ class Profile extends Model
     use HasFactory;
     protected $fillable = ['bio', 'location', 'breed'];
 
-    public function dog()
+    public function user()
     {
-        //Each profile is associated with only one Dog
-        return $this->belongsTo('App\Models\Dog');
+        //Each profile is associated with only one user
+        return $this->belongsTo('App\Models\User');
     }
 }

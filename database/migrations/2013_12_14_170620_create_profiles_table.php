@@ -18,12 +18,12 @@ class CreateProfilesTable extends Migration
             $table->string('bio');
             $table->string('location');
             $table->string('breed');
-            $table->bigInteger('dog_id')->unsigned();
+            $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
 
             //Set the foreign key constraint
-            $table->foreign('dog_id')->references('id')->
-                on('dogs')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('id')->
+                on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

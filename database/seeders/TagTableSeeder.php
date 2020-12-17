@@ -24,11 +24,17 @@ class TagTableSeeder extends Seeder
         Tag::factory()->times(7)->create();
 
         $posts = Post::get();
-        $tags = Tag::get();
-        //Attach to some posts, some tags.
+        //Attach to some Posts, some Tags.
         for ($i = 0; $i < count($posts); $i++)
         {
-            Tag::inRandomOrder()->first()->posts()->attach(Post::inRandomOrder()->first()->id);
+            $currentPostID = Post::inRandomOrder()->first()->id;
+            $currentTag = Tag::inRandomOrder()->first();
+           
+            //make a check if the Tag had already been attached
+            if ($currentTag->posts->find($currentPostID) == null)
+            {
+                $currentTag->posts()->attach($currentPostID);
+            }
         }
     }
 }

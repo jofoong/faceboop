@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Dog;
+use App\Models\User;
 
-class DogTableSeeder extends Seeder
+class UserTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,12 +14,12 @@ class DogTableSeeder extends Seeder
      */
     public function run()
     {
-        $a = new Dog;
+        $a = new User;
         $a->username = 'bestBoi86';
         $a->email = 'bestBoi86@yaooo.com';
         $a->password = 'itsme';
         $a->save();
 
-        Dog::factory()->times(100)->create();
+        User::factory()->times(100)->create();
     }
 }

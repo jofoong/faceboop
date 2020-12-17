@@ -18,7 +18,7 @@ class ProfileTableSeeder extends Seeder
         $a->bio = 'Open to polymorphic relationships';
         $a->location = 'Yorkshire';
         $a->breed = 'Beagle';
-        $a->dog_id = 1;
+        $a->user_id = 1;
         $a->save();
 
         Profile::factory()->times(100)->create();

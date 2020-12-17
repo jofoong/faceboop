@@ -16,7 +16,7 @@ class CommentTableSeeder extends Seeder
     {
         $a = new Comment;
         $a->comment = 'Bump';
-        $a->dog_id = 2;
+        $a->user_id = 2;
         $a->post_id = 1;
         $a->save();
 
