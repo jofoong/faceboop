@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class UserTableSeeder extends Seeder
@@ -15,10 +16,9 @@ class UserTableSeeder extends Seeder
     public function run()
     {
         $a = new User;
-        $a->name = 'Mr Fluffington McPantsies';
-        $a->username = 'bestBoi86';
+        $a->name = 'bestBoi86';
         $a->email = 'bestBoi86@yaooo.com';
-        $a->password = 'itsme';
+        $a->password = Hash::make('itsme');
         $a->save();
 
         User::factory()->times(100)->create();
