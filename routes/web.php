@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +23,9 @@ Route::get('/who/{name?}', function ($name = null) {
     return '...who...? What is this place? Are you...who ARE you?';
 });
 
-Route::get('/who/{name}', function ($name) {
-    return '...who...? What is this place? Are you...'.$name . '?';
-});
+Route::get('/profile/show/{profile_id}', [ProfileController::class, "show"]);
+
+Route::get('/posts/index', [PostController::class, "index"]);
 
 Auth::routes();
 
