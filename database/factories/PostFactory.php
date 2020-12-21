@@ -26,7 +26,8 @@ class PostFactory extends Factory
             //Generate from an array of predefined titles
             'title' => $this->faker->randomElement(
                 ['This guy for belly rubs' ,'One scratch vs two?', 'Best butt pat in town',
-                'Location vs patting frequency', 'Lost squirrels', 'Neighbourhood feeders']),
+                'Location vs patting frequency', 'Lost squirrels', 'Neighbourhood feeders',
+                'alright who stole the bone i buried', '[50/50] Human baby | Empty food bowl (NSFL)']),
             'content' => $this->faker->paragraph(),
             //Assigns each post to a random User
             'user_id' => User::inRandomOrder()->first()->id,

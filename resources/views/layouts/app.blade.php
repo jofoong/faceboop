@@ -24,7 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    Faceboop
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -69,6 +69,14 @@
                                     </form>
                                 </div>
                             </li>
+                            <form class="form-inline my-2 my-lg-0">
+                                <button class="btn btn-outline-success my-2 my-sm-0">
+                                    <a href="{{route('posts.create')}}">
+                                       New Post 
+                                    </a>
+                                </button>
+                            </form>
+                            
                         @endguest
                     </ul>
                 </div>

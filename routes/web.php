@@ -14,18 +14,13 @@ use App\Http\Controllers\PostController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/', [PostController::class, "index"])->name('homepage');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/profile/{profile_id}', [ProfileController::class, "show"])->name('profiles.show');
+Route::get('/posts/create', [PostController::class, "create"])->name('posts.create');
 
-Route::get('/who/{name?}', function ($name = null) {
-    return '...who...? What is this place? Are you...who ARE you?';
-});
 
-Route::get('/profile/show/{profile_id}', [ProfileController::class, "show"]);
-
-Route::get('/posts/index', [PostController::class, "index"]);
+Route::post('posts', [PostController::class, "store"])->name('posts.store');
 
 Auth::routes();
 
