@@ -1,8 +1,8 @@
-{{-- Shows a single post. The user can edit or delete the post.
+{{-- Shows a single post. The user can edit or delete the post,
+    or comment on it.
     
 TODO: 
-    edit function.
-    show comments.--}}
+    edit function.--}}
 
 @extends("layouts.app")
 
@@ -14,25 +14,46 @@ TODO:
         <h3>{{$post->title}}</h3>
         <p>{{$post->content}}</p>
         <p>Posted by 
-            <a href="{{route('profiles.show', ['profile_id'=>$post->user->id])}}">{{$post->user->name}}</a>
+            <a href="{{ route('profiles.show', ['profile_id'=>$post->user->id]) }}">{{$post->user->name}}</a>
             at {{$post->created_at}}
         </p>
     </div>
     
+    {{------ Post comments here 
     <div class="row">
-        @php
-            $comments = $post->comments;
-        @endphp
-        @foreach ($comments in $comment)
-            <p>{{$comment->comment}}</p>
-            <p>Posted by {{$comment->user()->name}}</p>
+        <form class="form-inline my-2 my-lg-0">
+            <button class="btn btn-outline-success my-2 my-sm-0">
+                {{$post->id}}
+                <a href="{{ route('comments.store', ['user_id'=>Auth::user()->id,'post_id'=>$post->id]) }}">
+                   Comment 
+                </a>
+            </button>
+        </form>
+    </div>------}}
+
+    {{------ Displays all comments for the post ------}}
+    <div class="container">
+        <h5>Comments ({{$post->comments->count()}})</h5>
+        @foreach ($post->comments->all() as $comment)
+            <div class="row">
+                <div class="col-sm">
+                    <a href="{{ route('comments.show', ['comment'=>$comment]) }}">
+                        <p>{{$comment->comment}}</p>
+                    </a>
+                </div>
+                <div class="col-sm">
+                    <p>Posted by <a href="{{ route('profiles.show', ['profile_id'=>$comment->user->id]) }}">{{$comment->user->name}}</a></p>
+                </div>
+            </div>   
         @endforeach
     </div>
 
+    {{-- 
+    
     <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::user()->id])}}">
-        
-        {{-- 
         @csrf
+
+
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" name="title" value="{{old('title')}}" class="form-control" id="title">
@@ -45,18 +66,19 @@ TODO:
 
         <div>
         <form action="{{route('posts.edit', ['post_id'=>$post->id])}}" method="POST">
-            <button type="button" class="btn btn-primary">Edit</button>
+            <button type="submit" class="btn btn-primary">Edit</button>
         </form>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit</button>
-         --}}
+
+        
+    </form>--}}
         <form action="{{route('posts.destroy', ['post_id'=>$post->id])}}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-light">Delete</button>
         </form>
-    </form>
 
 </div>
 @endsection

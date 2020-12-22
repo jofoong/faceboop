@@ -34,9 +34,20 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $user_id, $post_id)
     {
-        //
+        $validated = $request->validate([
+            'comment' => 'required|max:255',
+        ]);
+        
+        $p = new Comment;
+        $p->comment = $validated['comment'];
+        $p->user_id = $user_id;
+        $p->post_id = $post_id;
+        $p->save();
+
+        session()->flash('message', 'Comment posted!');
+        return $this->index();
     }
 
     /**
@@ -45,15 +56,10 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($comment)
     {
-       //
-    }
-
-    public function showForPost($id)
-    {
-
-        return (Post::findOrFail($id)->comments);
+        $currentComment = Comment::findOrFail($comment);
+        return view("comments/show", ["comment"=>$currentComment]);
     }
 
     /**

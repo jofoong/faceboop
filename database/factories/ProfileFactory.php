@@ -13,7 +13,7 @@ class ProfileFactory extends Factory
      * @var string
      */
     protected $model = Profile::class;
-    protected $i = 0;
+    protected $i = 1;
 
     /**
      * Define the model's default state.

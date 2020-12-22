@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +21,11 @@ Route::get('/profile/{profile_id}', [ProfileController::class, "show"])->name('p
 
 Route::get('/posts/create', [PostController::class, "create"])->name('posts.create');
 Route::post('posts/{user_id}', [PostController::class, "store"])->name('posts.store');
-Route::get('/posts/{post_id}', [PostController::class, "show"])->name('posts.show');
+Route::get('/posts/{post}', [PostController::class, "show"])->name('posts.show');
 Route::delete('/post/{post_id}', [PostController::class, "destroy"])->name('posts.destroy');
 
+Route::post('comments/user/{user_id}/post/{post_id}', [CommentController::class, "store"])->name('comments.store');
+Route::get('/comments/{comment}', [CommentController::class, "show"])->name('comments.show');
 
 Auth::routes();
 
