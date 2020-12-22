@@ -33,9 +33,21 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $user_id)
     {
-        dd($request['title']);
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+        ]);
+        
+        $p = new Post;
+        $p->title = $validated['title'];
+        $p->content = $validated['content'];
+        $p->user_id = $user_id;
+        $p->save();
+
+        session()->flash('message', 'Post created!');
+        return $this->index();
     }
 
     /**
@@ -44,9 +56,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function show(Post $post)
+    public function show($post_id)
     {
-        //
+        $currentPost = Post::findOrFail($post_id);
+        return view("posts/show", ["post"=>$currentPost]);
     }
 
     /**
@@ -55,9 +68,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
+    public function edit($post_id)
     {
-        //
+        $currentPost = Post::findOrFail($post_id);
+        //$currentPost->title = 
     }
 
     /**
@@ -78,8 +92,11 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Post $post)
+    public function destroy($post_id)
     {
-        //
+        $currentPost = Post::findOrFail($post_id);
+        $currentPost->delete();
+
+        return redirect()->route('homepage')->with('message', 'Post deleted.');
     }
 }

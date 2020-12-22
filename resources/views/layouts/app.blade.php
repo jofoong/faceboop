@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>Faceboop - @yield('title')</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -83,6 +83,21 @@
             </div>
         </nav>
 
+        @if ($errors->any())
+            <div>
+                Errors{{-- comment --}}
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        @if (session ('message'))
+            <p><b>{{session('message')}}</b></p>
+        @endif
+        
         <main class="py-4">
             @yield('content')
         </main>

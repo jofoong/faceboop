@@ -1,40 +1,27 @@
-//TODO: fix comment collapse
-//wow, thanks php, really commented out that one
-
 @extends("layouts.app")
+
+@section('title', 'Home')
 
 @section('content')
 <div class="container-fluid my-3 border">
     @foreach($posts as $post)
-        <div class="container pt-4">
+        <div class="container pt-4 p-4">
             <div class="row">
-                <h3>{{$post->title}}</h3>
+                <h3><a href="{{route('posts.show', ['post_id'=>$post->id])}}">{{$post->title}}</a></h3>
                 <p>{{$post->content}}</p>
                 <p>
-                    Posted by 
+                    Posted by
                     <a href="{{route('profiles.show', ['profile_id'=>$post->user->id])}}">{{$post->user->name}}</a>
-                    at {{$post->created_at}}</p>
+                    at {{$post->created_at}}
                 </p>   
             </div>
             
-            <div class="row">
-                <p>
-                    <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#commentCollapse" aria-expanded="false" aria-controls="commentCollapse">
+            <button type="button" class="btn btn-light">
+                <a href="{{route('posts.show', ['post_id'=>$post->id])}}">
                     Comments ({{$post->comments->count()}})
-                    </button>
-                </p>
-                <div class="collapse" id="commentCollapse">
-                    test
-                    
-                    /*<?php $curr = $post->comments?>
-                    @foreach($curr as $comment)
-                        <p>{{$comment->comment}}</p>
-                        <p>Posted by {{$comment->id}}</p>
-                    @endforeach*/
-                    
-                </div>
-            </div>
-            
+                </a>
+            </button>
+ 
             <div class="row">
                 <form>
                     <label for="comment" style="visibility:hidden">Comment</label>

@@ -47,12 +47,12 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-        //
+       //
     }
 
     public function showForPost($id)
     {
-        
+
         return (Post::findOrFail($id)->comments);
     }
 

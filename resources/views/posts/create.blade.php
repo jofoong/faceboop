@@ -1,30 +1,29 @@
+{{--Shows a 'new post creation' page.--}}
+
 @extends("layouts.app")
+
+@section('title', 'Create Post')
 
 @section('content')
 <div class="container-fluid my-3 border">
-    <form method="POST" action="{{route('posts.store')}}">
+
+    <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::user()->id])}}">
         @csrf
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="title">Title</span>
-            </div>
-            <input type="text" class="form-control" name="title" aria-label="Title" aria-describedby="title">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" name="title" value="{{old('title')}}" class="form-control" id="title">
+        </div>
+          
+        <div class="form-group">
+          <label for="content">Post</label>
+          <textarea class="form-control" name="content" content="{{old('content')}}" id="content" rows="3" placeholder="Type post here..."></textarea>
         </div>
 
-        <div class="input-group mb-3">
-            <form>
-                <label for="content" style="visibility:hidden">Content</label>
-                <textarea class="form-control mb-2 mr-sm-2" name="content" id="content" placeholder="Type your post here..."></textarea>
-            </form>
-        </div>
-
-            <button class="btn btn-outline-primary" type="submit" value="Submit">
-                <a href="{{route('posts.create')}}">Post!</a>
-            </button>
-            <button type="button" class="btn btn-link">
-                <a href="{{route('homepage')}}">Cancel</a>
-            </button>
-            
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-link">
+            <a href="{{route('homepage')}}">Cancel</a>
+        </button>
     </form>
+
 </div>
 @endsection

@@ -17,10 +17,12 @@ use App\Http\Controllers\PostController;
 Route::get('/', [PostController::class, "index"])->name('homepage');
 
 Route::get('/profile/{profile_id}', [ProfileController::class, "show"])->name('profiles.show');
+
 Route::get('/posts/create', [PostController::class, "create"])->name('posts.create');
+Route::post('posts/{user_id}', [PostController::class, "store"])->name('posts.store');
+Route::get('/posts/{post_id}', [PostController::class, "show"])->name('posts.show');
+Route::delete('/post/{post_id}', [PostController::class, "destroy"])->name('posts.destroy');
 
-
-Route::post('posts', [PostController::class, "store"])->name('posts.store');
 
 Auth::routes();
 
