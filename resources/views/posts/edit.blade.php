@@ -2,30 +2,26 @@
 
 @section('title', 'Edit Post')
 @section('content')
-<div class="container-fluid my-3 border">
-    <form method="POST" action="{{route('posts.store')}}">
-        @csrf
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="title">Title</span>
-            </div>
-            <input type="text" class="form-control" name="title" placeholder="{{$post->title}}" aria-label="Title" aria-describedby="title">
-        </div>
 
-        <div class="input-group mb-3">
-            <form>
-                <label for="content" style="visibility:hidden">Content</label>
-                <textarea class="form-control mb-2 mr-sm-2" name="content" id="content" placeholder="{{$post->content}}"></textarea>
+<div class="container-fluid my-3 border p-4">
+    <div class="row">
+        <h3>{{$post->title}}</h3>
+        @unless(! (Auth::id() === $post->user_id))
+            <form method="POST" action="{{ route('posts.update', ['post_id'=>$post->id, 'user_id'=>Auth::id()]) }}">
+                @csrf
+                <div class="form-group">
+                    <label class="sr-only" style="visibility:hidden" id="content" ></label>
+                    <textarea class="form-control" name="content" value="{{old('content')}}" id="content" rows="3">{{ $post->content }}</textarea>            
+                </div>
+                <button type="submit" class="btn btn-primary">Edit</button>
             </form>
-        </div>
 
-            <button class="btn btn-outline-primary" type="submit" value="Submit">
-                <a href="{{route('homepage')}}">Post!</a>
-            </button>
-            <button type="button" class="btn btn-link">
-                <a href="{{route('homepage')}}">Cancel</a>
-            </button>
-            
-    </form>
+            <form method="POST" action="{{ route('posts.destroy', ['post'=>$post, 'user'=>Auth::user()]) }}">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>        
+        @endunless
+    </div>
 </div>
 @endsection

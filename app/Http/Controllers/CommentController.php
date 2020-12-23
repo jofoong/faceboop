@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\User;
 
 class CommentController extends Controller
 {
@@ -41,13 +44,13 @@ class CommentController extends Controller
         ]);
         
         $p = new Comment;
-        $p->comment = $validated['comment'];
+        $p->comment = $validated['comment'];            
         $p->user_id = $user_id;
         $p->post_id = $post_id;
         $p->save();
 
         session()->flash('message', 'Comment posted!');
-        return $this->index();
+        return view("posts/show", ["post"=>Post::findOrFail($post_id)]);
     }
 
     /**
@@ -80,9 +83,23 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $comment_id)
     {
-        //
+        if (! Gate::allows('update-comment', Comment::findOrFail($comment_id))) {
+            abort(403);
+        } else {
+            $validated = $request->validate([
+            'comment' => 'required|max:255',
+            ]);
+
+            $comment = Comment::findOrFail($comment_id);
+            $comment->comment = $validated['comment'];      
+            $comment->edited = 'Edited at ' . $comment->created_at;
+            $comment->save();
+
+            session()->flash('message', 'Comment edited.');
+            return redirect()->route('posts.show', [Post::find($comment->post_id)]);
+        }
     }
 
     /**
@@ -91,8 +108,14 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comment $comment)
     {
-        //
+        if (! Gate::allows('destroy-comment', $comment)) {
+            abort(403);
+        } else {
+            $comment->delete();
+            session()->flash('message', "Comment deleted. Jamie still managed to get a screenshot though. It's already posted on twitter.");
+            return redirect()->route('posts.show', [Post::find($comment->post_id)]);
+        }
     }
 }

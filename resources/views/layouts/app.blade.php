@@ -70,11 +70,9 @@
                                 </div>
                             </li>
                             <form class="form-inline my-2 my-lg-0">
-                                <button class="btn btn-outline-success my-2 my-sm-0">
-                                    <a href="{{route('posts.create')}}">
+                                <a class="btn btn-outline-success my-2 my-sm-0" href="{{route('posts.create')}}">
                                        New Post 
-                                    </a>
-                                </button>
+                                </a>
                             </form>
                             
                         @endguest

@@ -29,6 +29,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Comment');
     }
     
+    public function images()
+    {
+        //Each User has a one-to-many r/s with Images
+        return $this->hasMany('App\Models\Image');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

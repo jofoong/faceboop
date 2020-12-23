@@ -5,19 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Image extends Model
 {
     use HasFactory;
 
-    public function post()
-    {
-        //Each comment can only belong to one post
-        return $this->belongsTo('App\Models\Post');
-    }
+    protected $fillable = [
+        'name', 'url',
+    ];
 
     public function user()
     {
-        //Each comment can only belong to one user
+        //Each image can only belong to one user
         return $this->belongsTo('App\Models\User');
     }
 }

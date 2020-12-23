@@ -18,6 +18,7 @@ class CreatePostsTable extends Migration
             $table->string('title');
             $table->string('content', 512);
             $table->bigInteger('user_id')->unsigned();
+            $table->string('edited')->nullable();
             $table->timestamps();
 
             //Set the foreign key constraint

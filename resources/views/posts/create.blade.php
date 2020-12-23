@@ -7,7 +7,7 @@
 @section('content')
 <div class="container-fluid my-3 border">
 
-    <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::user()->id])}}">
+    <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::id()])}}">
         @csrf
         <div class="form-group">
           <label for="title">Title</label>

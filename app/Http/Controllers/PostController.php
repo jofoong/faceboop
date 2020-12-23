@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -24,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('posts/create');
     }
 
     /**
@@ -47,7 +48,7 @@ class PostController extends Controller
         $p->save();
 
         session()->flash('message', 'Post created!');
-        return $this->index();
+        return redirect()->route('homepage');
     }
 
     /**
@@ -59,7 +60,7 @@ class PostController extends Controller
     public function show($post_id)
     {
         $currentPost = Post::findOrFail($post_id);
-        return view("posts/show", ["post"=>$currentPost]);
+        return view("posts.show", ["post"=>$currentPost]);
     }
 
     /**
@@ -68,10 +69,10 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit($post_id)
+    public function edit(Post $post, $user_id)
     {
-        $currentPost = Post::findOrFail($post_id);
-        //$currentPost->title = 
+        $currentPost = Post::findOrFail($post);
+        return view("posts.edit", ["post"=>$currentPost, "user_id"=>$user_id]);
     }
 
     /**
@@ -81,9 +82,25 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(Request $request, $post_id)
     {
-        //
+        if (! Gate::allows('update-post', Post::findOrFail($post_id))) {
+            abort(403);
+        } else {
+            $validated = $request->validate([
+                'title' => 'required|max:255',
+                'content' => 'required',
+            ]);
+
+            $post = Post::findOrFail($post_id);
+            $post->title = $validated['title'];     
+            $post->content = $validated['content'];     
+            $post->edited = 'Edited at ' . $post->created_at;
+            $post->save();
+
+            session()->flash('message', 'Post edited.');
+            return redirect()->route('posts.show', [Post::find($post_id)]);
+        }
     }
 
     /**
@@ -92,11 +109,15 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy($post_id)
+    public function destroy(Post $post)
     {
-        $currentPost = Post::findOrFail($post_id);
-        $currentPost->delete();
-
-        return redirect()->route('homepage')->with('message', 'Post deleted.');
+        if (! Gate::allows('destroy-post', $post)) {
+            abort(403);
+        } else {
+            $post->delete();
+            session()->flash('message', 'Post deleted.');
+        }
+        
+        return redirect()->route('homepage');
     }
 }
