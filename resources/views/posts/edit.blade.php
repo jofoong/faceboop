@@ -5,10 +5,14 @@
 
 <div class="container-fluid my-3 border p-4">
     <div class="row">
-        <h3>{{$post->title}}</h3>
         @unless(! (Auth::id() === $post->user_id))
             <form method="POST" action="{{ route('posts.update', ['post_id'=>$post->id, 'user_id'=>Auth::id()]) }}">
                 @csrf
+                <div class="form-group">
+                    <label id="title" >Title</label>
+                    <input type="text" name="title" value="{{old('title')}}" class="form-control" id="title" placeholder="{{ $post->title }}">
+                </div>
+
                 <div class="form-group">
                     <label class="sr-only" style="visibility:hidden" id="content" ></label>
                     <textarea class="form-control" name="content" value="{{old('content')}}" id="content" rows="3">{{ $post->content }}</textarea>            

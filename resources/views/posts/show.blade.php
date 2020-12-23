@@ -9,10 +9,10 @@
         <p>{{$post->content}}</p>
     </div>
     <div class="row">
-        <div class="col-10">
+        <div class="col-8">
             Posted by <a href="{{route('profiles.show', ['profile_id'=>$post->user_id])}}">{{$post->user->name}}</a> at {{$post->created_at}}
         </div>
-        <div class="col-2">
+        <div class="col-4">
             @if (! ($post->edited === null))
                 <i>{{ $post->edited }}</i>
             @endif

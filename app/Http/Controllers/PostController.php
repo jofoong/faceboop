@@ -69,10 +69,9 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post, $user_id)
+    public function edit(Post $post)
     {
-        $currentPost = Post::findOrFail($post);
-        return view("posts.edit", ["post"=>$currentPost, "user_id"=>$user_id]);
+        return view("posts.edit", ["post"=>$post]);
     }
 
     /**

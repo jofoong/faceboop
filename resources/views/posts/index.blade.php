@@ -11,10 +11,10 @@
                 <p>{{$post->content}}</p>  
             </div>
             <div class="row">
-                <div class="col-10">
+                <div class="col-8">
                     Posted by <a href="{{route('profiles.show', ['profile_id'=>$post->user->id])}}">{{$post->user->name}}</a> at {{$post->created_at}}
                 </div>
-                <div class="col-2">
+                <div class="col-4">
                     @if (! ($post->edited === null))
                     <i>{{ $post->edited }}</i>
                     @endif
@@ -26,17 +26,20 @@
             </a>
 
             {{-- Only show edit and delete buttons on a post if user was poster --}}
-            @unless(! (Auth::id() == $post->user_id))
-                <a type="button" class="btn btn-primary" href="{{ route('posts.edit', ['post'=>$post, 'user_id'=>Auth::id()]) }}">
-                    Edit
-                </a>
+            <div class="row">
+                @unless(! (Auth::id() == $post->user_id))
+                    <form method="GET" action="{{ route('posts.edit', ['post'=>$post, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Edit post</button>
+                    </form>
 
-                <form method="POST" action="{{ route('posts.destroy', ['post'=>$post, 'user'=>Auth::user()]) }}">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Delete post</button>
-                </form>
-            @endunless
+                    <form method="POST" action="{{ route('posts.destroy', ['post'=>$post, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger">Delete post</button>
+                    </form>
+                @endunless
+            </div>
         </div>
     @endforeach
 </div>
