@@ -36,11 +36,12 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('update-post', function(User $user, Post $post) {
+            
             return $user->id === $post->user_id;
         });
         Gate::define('update-comment', function(User $user, Comment $comment) {
             return $user->id === $comment->user_id;
-        });
+        }); 
 
         Gate::define('isAdmin', function($user) {
             return $user->role === 'admin';

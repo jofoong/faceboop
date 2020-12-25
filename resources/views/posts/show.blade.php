@@ -62,7 +62,7 @@
                 </div>
                 {{-- If original commenter, show edit and delete buttons --}}
                 <div class="col-3">
-                    @unless(! (Auth::id() == $comment->user_id))
+                    @if((Auth::id() === $comment->user_id) || (Auth::user()->role === 'admin'))
                         <form method="GET" action="{{ route('comments.show', ['comment'=>$comment, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
                             @csrf
                             <button type="submit" class="btn btn-primary">Edit</button>
@@ -73,19 +73,23 @@
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
-                    @endunless
+                    @endif
                 </div>
             </div>
         @endforeach
     </div>
 
-    {{-- Only show the post delete button if user is authorised to do so --}}
-    @unless(! (Auth::id() == $post->user_id))
+    {{-- Only show the post edit/delete button if user is authorised to do so --}}
+    @if(Auth::id() == $post->user_id || (Auth::user()->role === 'admin'))
+        <form method="GET" action="{{ route('posts.edit', ['post'=>$post, 'user'=>Auth::user()]) }}" class="form-check form-check-inline"
+            @csrf
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
         <form method="POST" action="{{ route('posts.destroy', ['post'=>$post, 'user'=>Auth::user()]) }}">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger">Delete post</button>
         </form>
-    @endunless
+    @endif
 </div>
 @endsection

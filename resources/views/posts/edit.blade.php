@@ -8,7 +8,6 @@
 @section('content')
 
 <div class="container-fluid my-3 border p-4">
-    @unless(! (Auth::id() === $post->user_id))
         <div class="row">
             <form method="POST" action="{{ route('posts.update', ['post_id'=>$post->id, 'user_id'=>Auth::id()]) }}">
                 @csrf
@@ -40,7 +39,5 @@
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </div>
-    @endunless
-
 </div>
 @endsection

@@ -85,21 +85,17 @@ class CommentController extends Controller
      */
     public function update(Request $request, $comment_id)
     {
-        if (! Gate::allows('update-comment', Comment::findOrFail($comment_id))) {
-            abort(403);
-        } else {
-            $validated = $request->validate([
+        $validated = $request->validate([
             'comment' => 'required|max:255',
-            ]);
+        ]);
 
-            $comment = Comment::findOrFail($comment_id);
-            $comment->comment = $validated['comment'];      
-            $comment->edited = 'Edited at ' . $comment->created_at;
-            $comment->save();
+        $comment = Comment::findOrFail($comment_id);
+        $comment->comment = $validated['comment'];      
+        $comment->edited = 'Edited at ' . $comment->created_at;
+        $comment->save();
 
-            session()->flash('message', 'Comment edited.');
-            return redirect()->route('posts.show', [Post::find($comment->post_id)]);
-        }
+        session()->flash('message', 'Comment edited.');
+        return redirect()->route('posts.show', [Post::find($comment->post_id)]);
     }
 
     /**
@@ -110,12 +106,8 @@ class CommentController extends Controller
      */
     public function destroy(Comment $comment)
     {
-        if (! Gate::allows('destroy-comment', $comment)) {
-            abort(403);
-        } else {
-            $comment->delete();
-            session()->flash('message', "Comment deleted. Jamie still managed to get a screenshot though. It's already posted on twitter.");
-            return redirect()->route('posts.show', [Post::find($comment->post_id)]);
-        }
+        $comment->delete();
+        session()->flash('message', "Comment deleted. Jamie still managed to get a screenshot though. It's already posted on twitter.");
+        return redirect()->route('posts.show', [Post::find($comment->post_id)]);
     }
 }

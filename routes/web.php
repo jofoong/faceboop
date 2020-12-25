@@ -36,6 +36,15 @@ Route::delete('/comments/{comment}', [CommentController::class, "destroy"])->nam
 
 Route::get('/tag/{tag}', [TagController::class, "index"])->name('tags.index');
 
+Route::namespace('Admin')->prefix('admin')->name('admin')->group(function(){
+    Route::middleware('can:posts.update')->group(function(){
+        Route::post('posts/{post_id}/user/{user_id}', [PostController::class, "update"])->name('posts.update');
+    });
+    Route::middleware('can:posts.destroy')->group(function(){
+        Route::delete('/posts/{post}', [PostController::class, "destroy"])->name('posts.destroy');
+    });
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

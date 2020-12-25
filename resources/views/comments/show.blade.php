@@ -29,8 +29,9 @@
         </div>
     </div>
     <div class="row">
-            {{-- Only allow the original commenter to edit/delete their comment  --}}
-            @unless(! (Auth::id() === $comment->user_id))
+        {{-- Only allow admin/original commenter to edit/delete their comment--}}
+        @if(Auth::id() === $comment->user_id || 'isAdmin') 
+            @can('update-comment', $comment)
                 <form method="POST" action="{{ route('comments.update', ['comment_id'=>$comment->id, 'user_id'=>Auth::id()]) }}">
                     @csrf
                     <div class="form-group">
@@ -45,7 +46,8 @@
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-            @endunless
+            @endcan
+        @endif
     </div>
 </div>    
 @endsection

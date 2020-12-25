@@ -17,5 +17,17 @@
             <a class="btn btn-light" href="#">Commments</a>
         </div>
     </div>
+    @if((Auth::id() == $profile->user_id) || 'isAdmin')
+        <form method="GET" action="{{ route('profiles.edit', ['profile'=>$profile, 'user'=>Auth::user()]) }}" class="form-check form-check-inline"
+            @csrf
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </form>
+
+        <form method="POST" action="{{ route('profiles.destroy', ['profile'=>$profile, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+    @endif
 </div>    
 @endsection

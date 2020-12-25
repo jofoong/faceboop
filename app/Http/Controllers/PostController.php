@@ -89,28 +89,24 @@ class PostController extends Controller
      */
     public function update(Request $request, $post_id)
     {
-        if (! Gate::allows('update-post', Post::findOrFail($post_id))) {
-            abort(403);
-        } else {
-            $validated = $request->validate([
-                'title' => 'required|max:255',
-                'content' => 'required',
-            ]);
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'content' => 'required',
+        ]);
 
-            $post = Post::findOrFail($post_id);
-            $post->title = $validated['title'];     
-            $post->content = $validated['content'];     
-            $post->edited = 'Edited at ' . $post->created_at;
-            $post->save();
-            foreach (Tag::get() as $tag) {
-                if (! ($request[$tag->tag] === null)) {
-                   $p->tags()->attach($tag->id);   
-                }
+        $post = Post::findOrFail($post_id);
+        $post->title = $validated['title'];     
+        $post->content = $validated['content'];     
+        $post->edited = 'Edited at ' . $post->created_at;
+        $post->save();
+        foreach (Tag::get() as $tag) {
+            if (! ($request[$tag->tag] === null)) {
+               $p->tags()->attach($tag->id);   
             }
-
-            session()->flash('message', 'Post edited.');
-            return redirect()->route('posts.show', [Post::find($post_id)]);
         }
+
+        session()->flash('message', 'Post edited.');
+        return redirect()->route('posts.show', [Post::find($post_id)]);        
     }
 
     /**
@@ -121,13 +117,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        if (! Gate::allows('destroy-post', $post)) {
-            abort(403);
-        } else {
-            $post->delete();
-            session()->flash('message', 'Post deleted.');
-        }
-        
+        $post->delete();
+        session()->flash('message', 'Post deleted.');
         return redirect()->route('homepage');
     }
 }
