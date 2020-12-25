@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ImageController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::post('comments/user/{user_id}/post/{post_id}', [CommentController::class,
 Route::get('/comments/{comment}', [CommentController::class, "show"])->name('comments.show');
 Route::post('comments/{comment_id}/user/{user_id}', [CommentController::class, "update"])->name('comments.update')->middleware('auth');
 Route::delete('/comments/{comment}', [CommentController::class, "destroy"])->name('comments.destroy')->middleware('auth');
+
+Route::get('/tag/{tag}', [TagController::class, "index"])->name('tags.index');
 
 Auth::routes();
 

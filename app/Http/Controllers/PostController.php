@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -46,6 +47,11 @@ class PostController extends Controller
         $p->content = $validated['content'];
         $p->user_id = $user_id;
         $p->save();
+        foreach (Tag::get() as $tag) {
+           if (! ($request[$tag->tag] === null)) {
+              $p->tags()->attach($tag->id);   
+           }
+        }
 
         session()->flash('message', 'Post created!');
         return redirect()->route('homepage');
@@ -96,6 +102,11 @@ class PostController extends Controller
             $post->content = $validated['content'];     
             $post->edited = 'Edited at ' . $post->created_at;
             $post->save();
+            foreach (Tag::get() as $tag) {
+                if (! ($request[$tag->tag] === null)) {
+                   $p->tags()->attach($tag->id);   
+                }
+            }
 
             session()->flash('message', 'Post edited.');
             return redirect()->route('posts.show', [Post::find($post_id)]);

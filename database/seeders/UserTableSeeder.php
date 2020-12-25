@@ -21,6 +21,13 @@ class UserTableSeeder extends Seeder
         $a->password = Hash::make('itsme');
         $a->save();
 
+        $admin = new User;
+        $admin->name = 'admin';
+        $admin->email = 'admin@admin.com';
+        $admin->password = Hash::make('admin');
+        $admin->role = 'admin';
+        $admin->save();
+
         User::factory()->times(100)->create();
     }
 }

@@ -22,9 +22,9 @@ class TagFactory extends Factory
     public function definition()
     {
         return [
-            //An array of 7 predefined tags
-            'tag' => $this->faker->randomElement(
-                ['medical', 'location', 'request', 'funny', 'cats','general','skritches']),
+            //An array of predefined tags
+            'tag' => $this->faker->unique()->randomElement(
+                ['location', 'request', 'funny', 'cats', 'general', 'skritches', 'play', 'medical']),
         ];
     }
 }

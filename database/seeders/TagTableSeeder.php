@@ -16,7 +16,7 @@ class TagTableSeeder extends Seeder
     public function run()
     {
         $a = new Tag;
-        $a->tag = 'medical';
+        $a->tag = 'help';
         $a->save();
 
         $a->posts()->attach(1);

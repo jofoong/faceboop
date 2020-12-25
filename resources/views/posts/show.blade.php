@@ -7,6 +7,14 @@
     <div class="row">
         <h3>{{$post->title}}</h3>
         <p>{{$post->content}}</p>
+        <p> 
+            @if ($post::has('tags','>',0))
+                Tags: 
+                @foreach ($post->tags as $tag)
+                    <a class="btn btn-outline-dark" href="{{route('tags.index', ['tag'=>$tag])}}" role="button">{{ $tag->tag }}</a>
+                @endforeach
+            @endif
+        </p>
     </div>
     <div class="row">
         <div class="col-8">

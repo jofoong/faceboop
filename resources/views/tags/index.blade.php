@@ -1,14 +1,15 @@
 @extends("layouts.app")
 
-@section('title', 'Home')
+@section('title', "#$tag->tag")
 
 @section('content')
 <div class="container-fluid my-3 border">
-    @foreach($posts as $post)
+    <h3>Viewing posts tagged with: '{{ $tag->tag }}'</h3>
+    @foreach ($tag->posts->all() as $post)
         <div class="container pt-4 p-4">
             <div class="row">
                 <h3><a href="{{route('posts.show', ['post'=>$post])}}">{{$post->title}}</a></h3>
-                <p>{{$post->content}}</p> 
+                <p>{{$post->content}}</p>  
                 <p> 
                     @if ($post::has('tags','>',0))
                         Tags: 
@@ -16,7 +17,7 @@
                             <a class="btn btn-outline-dark" href="{{route('tags.index', ['tag'=>$tag])}}" role="button">{{ $tag->tag }}</a>
                         @endforeach
                     @endif
-                </p> 
+                </p>
             </div>
             <div class="row">
                 <div class="col-8">
@@ -24,11 +25,11 @@
                 </div>
                 <div class="col-4">
                     @if (! ($post->edited === null))
-                    <i>{{ $post->edited }}</i>
+                        <i>{{ $post->edited }}</i>
                     @endif
                 </div>
             </div>
-            
+        
             <a type="button" class="btn btn-light" href="{{ route('posts.show', ['post'=>$post]) }}">
                 Comments ({{$post->comments->count()}})
             </a>
