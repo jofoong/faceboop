@@ -6,7 +6,6 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\TagController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,12 +35,23 @@ Route::delete('/comments/{comment}', [CommentController::class, "destroy"])->nam
 
 Route::get('/tag/{tag}', [TagController::class, "index"])->name('tags.index');
 
+Route::post('/image/post/{post}', [ImageController::class, "store"])->name('images.store')->middleware('auth');
+
 Route::namespace('Admin')->prefix('admin')->name('admin')->group(function(){
     Route::middleware('can:posts.update')->group(function(){
-        Route::post('posts/{post_id}/user/{user_id}', [PostController::class, "update"])->name('posts.update');
+        Route::post('posts/{post_id}/user/{user_id}', [PostController::class, "update"],['except' => ['show']])->name('posts.update');
     });
     Route::middleware('can:posts.destroy')->group(function(){
-        Route::delete('/posts/{post}', [PostController::class, "destroy"])->name('posts.destroy');
+        Route::delete('/posts/{post}', [PostController::class, "destroy"],['except' => ['show']])->name('posts.destroy');
+    });
+    Route::middleware('can:comments.store')->group(function(){
+        Route::post('comments/user/{user_id}/post/{post_id}', [CommentController::class, "store"],['except' => ['show']])->name('comments.store');
+    });
+    Route::middleware('can:comments.update')->group(function(){
+        Route::post('comments/{comment_id}/user/{user_id}', [CommentController::class, "update"],['except' => ['show']])->name('comments.update');
+    });
+    Route::middleware('can:comments.destroy')->group(function(){
+        Route::delete('/comments/{comment}', [CommentController::class, "destroy"],['except' => ['show']])->name('comments.destroy');
     });
 });
 

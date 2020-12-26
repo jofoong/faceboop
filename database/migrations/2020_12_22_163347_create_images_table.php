@@ -15,14 +15,13 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 30);
             $table->string('url', 2083);
-            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('post_id')->unsigned();
             $table->timestamps();
 
             //Set the foreign key constraints
-            $table->foreign('user_id')->references('id')->
-                on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('post_id')->references('id')->
+                on('posts')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

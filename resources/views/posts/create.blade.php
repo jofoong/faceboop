@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="container-fluid my-3 border">
-  @unless(! Auth::user())
+  @auth
     <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::id()])}}">
         @csrf
         <div class="form-group">
@@ -20,6 +20,18 @@
           <label for="content">Post</label>
           <textarea class="form-control" name="content" content="{{old('content')}}" id="content" rows="3" placeholder="Type post here..."></textarea>
         </div>
+
+        <form action="{{ route('images.store', ['user_id'=>Auth::id()]) }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <div class="row">
+              <div class="col-md-6">
+                  <input type="file" name="image" class="form-control">
+              </div>
+              <div class="col-md-6">
+                  <button type="submit" class="btn btn-success">Upload</button>
+              </div>
+          </div>
+        </form>
 
         <div class="form-check form-check-inline">
           Tags: 
@@ -34,7 +46,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-outline-dark" href="{{route('homepage')}}">Cancel</a>
     </form>
-    
-  @endunless
+  @endauth
 </div>
 @endsection

@@ -34,4 +34,10 @@ class Post extends Model
         //Multiple Posts can have multiple Tags
         return $this->belongsToMany('App\Models\Tag'); 
     }
+
+    public function image()
+    {
+        //A Post has a one-to-one r/s with its Image
+        return $this->hasOne('App\Models\Image');
+    }
 }

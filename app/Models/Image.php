@@ -13,9 +13,9 @@ class Image extends Model
         'name', 'url',
     ];
 
-    public function user()
+    public function post()
     {
         //Each image can only belong to one user
-        return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\Post');
     }
 }

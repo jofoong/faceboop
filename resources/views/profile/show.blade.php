@@ -8,21 +8,11 @@
         </div>
         <div class="col-10">
             <p>Username: {{$profile->user->name}}</p>
+            <p>Breed: {{$profile->breed}}</p>
             <p>Bio: {{$profile->bio}}</p>
         </div>
     </div>
-    <div class="row pt-3">
-        <div class="col-sm">
-            <a class="btn btn-light" href="#">Posts</a>
-            <a class="btn btn-light" href="#">Commments</a>
-        </div>
-    </div>
-    @if((Auth::id() == $profile->user_id) || 'isAdmin')
-        <form method="GET" action="{{ route('profiles.edit', ['profile'=>$profile, 'user'=>Auth::user()]) }}" class="form-check form-check-inline"
-            @csrf
-            <button type="submit" class="btn btn-primary">Edit</button>
-        </form>
-
+    @if((Auth::id() == $profile->user_id) || Gate::allows('isAdmin'))
         <form method="POST" action="{{ route('profiles.destroy', ['profile'=>$profile, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
             @csrf
             @method('DELETE')
