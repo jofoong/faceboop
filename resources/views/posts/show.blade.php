@@ -28,7 +28,7 @@
     </div>
 
     {{-- Only allow logged-in users to comment --}}
-    @auth
+    @if (Auth::check())
         <div class="row">
             <form method="POST" action="{{ route('comments.store', ['user_id'=>Auth::id(), 'post_id'=>$post->id]) }}">
                 @csrf
@@ -39,7 +39,7 @@
                 <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Comment</button>
             </form>
         </div>
-    @endauth
+    @endif
 
     {{------ Displays all comments for the post ------}}
     <div class="container-fluid my-3 border p-4">
@@ -62,7 +62,7 @@
                 </div>
                 {{-- If original commenter, show edit and delete buttons --}}
                 <div class="col-3">
-                    @if((Auth::id() === $comment->user_id) || (Auth::user()->role === 'admin'))
+                    @if(Auth::id() === $comment->user_id || Gate::allows('isAdmin'))
                         <form method="GET" action="{{ route('comments.show', ['comment'=>$comment, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
                             @csrf
                             <button type="submit" class="btn btn-primary">Edit</button>
@@ -80,7 +80,7 @@
     </div>
 
     {{-- Only show the post edit/delete button if user is authorised to do so --}}
-    @if(Auth::id() == $post->user_id || (Auth::user()->role === 'admin'))
+    @if(Auth::id() == $post->user_id || Gate::allows('isAdmin'))
         <form method="GET" action="{{ route('posts.edit', ['post'=>$post, 'user'=>Auth::user()]) }}" class="form-check form-check-inline"
             @csrf
             <button type="submit" class="btn btn-primary">Edit</button>

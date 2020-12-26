@@ -47,11 +47,17 @@ class PostController extends Controller
         $p->content = $validated['content'];
         $p->user_id = $user_id;
         $p->save();
-        foreach (Tag::get() as $tag) {
-           if (! ($request[$tag->tag] === null)) {
-              $p->tags()->attach($tag->id);   
-           }
+        if (isset($request->tags)) {
+            $p->tags()->sync($request->tags, false);
+        } else {
+            $p->tags()->sync(array());
         }
+
+        /*foreach (Tag::get() as $tag) {
+           if (! ($request[$tag] === null)) {
+              $tag->posts()->attach($p->id);   
+           }
+        }*/
 
         session()->flash('message', 'Post created!');
         return redirect()->route('homepage');
@@ -89,24 +95,29 @@ class PostController extends Controller
      */
     public function update(Request $request, $post_id)
     {
-        $validated = $request->validate([
+        if (Gate::allows('isAdmin') || Gate::allows('update-post', Post::find($post_id))) {
+            $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
-        ]);
+            ]);
 
-        $post = Post::findOrFail($post_id);
-        $post->title = $validated['title'];     
-        $post->content = $validated['content'];     
-        $post->edited = 'Edited at ' . $post->created_at;
-        $post->save();
-        foreach (Tag::get() as $tag) {
-            if (! ($request[$tag->tag] === null)) {
-               $p->tags()->attach($tag->id);   
+            $post = Post::findOrFail($post_id);
+            $post->title = $validated['title'];     
+            $post->content = $validated['content'];     
+            $post->edited = 'Edited at ' . $post->created_at;
+            $post->save();
+
+            foreach (Tag::get() as $tag) {
+                if (! ($request[$tag->tag] === null)) {
+                    $tag->posts()->attach($post->id);
+                }
             }
-        }
 
-        session()->flash('message', 'Post edited.');
-        return redirect()->route('posts.show', [Post::find($post_id)]);        
+            session()->flash('message', 'Post edited.');
+            return redirect()->route('posts.show', [Post::find($post_id)]);  
+        } else {
+            abort(403); 
+        }
     }
 
     /**

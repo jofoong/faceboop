@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="container-fluid my-3 border">
-  @unless(! Auth::user())
+  @auth
     <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::id()])}}">
         @csrf
         <div class="form-group">
@@ -34,7 +34,6 @@
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-outline-dark" href="{{route('homepage')}}">Cancel</a>
     </form>
-    
-  @endunless
+  @endauth
 </div>
 @endsection

@@ -30,7 +30,7 @@
     </div>
     <div class="row">
         {{-- Only allow admin/original commenter to edit/delete their comment--}}
-        @if(Auth::id() === $comment->user_id || 'isAdmin') 
+        @if(Auth::id() === $comment->user_id || Gate::allows('isAdmin')) 
             @can('update-comment', $comment)
                 <form method="POST" action="{{ route('comments.update', ['comment_id'=>$comment->id, 'user_id'=>Auth::id()]) }}">
                     @csrf

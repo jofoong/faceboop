@@ -34,8 +34,9 @@
             </a>
 
             {{-- Only show edit and delete buttons on a post if user was poster --}}
-            <div class="row">
-                @if((Auth::id() == $post->user_id) || Auth::user()->role === 'admin')
+            @if(Auth::id() == $post->user_id || Gate::allows('isAdmin'))
+                <div class="row">
+                
                     <form method="GET" action="{{ route('posts.edit', ['post'=>$post, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
                         @csrf
                         <button type="submit" class="btn btn-primary">Edit post</button>
@@ -45,8 +46,9 @@
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">Delete post</button>
                     </form>
-                @endif
-            </div>
+                
+                </div>
+            @endif
         </div>
     @endforeach
 </div>

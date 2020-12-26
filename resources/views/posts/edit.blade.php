@@ -8,6 +8,7 @@
 @section('content')
 
 <div class="container-fluid my-3 border p-4">
+  @auth
         <div class="row">
             <form method="POST" action="{{ route('posts.update', ['post_id'=>$post->id, 'user_id'=>Auth::id()]) }}">
                 @csrf
@@ -29,7 +30,8 @@
                           <label class="form-check-label" for="{{ $tag->tag }}">{{ $tag->tag }}</label>
                         </div>
                       @endforeach
-                  </div>
+                </div>
+                    
                 <button type="submit" class="btn btn-primary">Edit</button>
             </form>    
 
@@ -39,5 +41,6 @@
                 <button type="submit" class="btn btn-danger">Delete</button>
             </form>
         </div>
+  @endauth
 </div>
 @endsection
