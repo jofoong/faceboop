@@ -27,19 +27,27 @@
             <input type="file" name="image" id="image">
           </div>
           <div class="col-md-6">
-            <button type="submit" class="btn btn-success">Upload</button>
+            {{-- <button type="submit" class="btn btn-success">Upload</button>
+               --}}
+            
           </div>
         </div>
 
-        <div class="form-check form-check-inline">
-          Tags: 
-            @foreach (Tag::get()->unique() as $tag)
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" name="{{ $tag->tag }}" type="checkbox" id="{{ $tag->tag }}" value="{{ $tag->tag }}">
-                <label class="form-check-label" for="{{ $tag->tag }}">{{ $tag->tag }}</label>
-              </div>
+        Tags: 
+          {{--<select name="tags[]" multiple="multiple">
+            @foreach (Tag::get() as $tag)
+                <option value="{{ $tag->tag }}">{{ $tag->tag }}</option>
             @endforeach
-        </div>
+        </select>--}} 
+           
+              @foreach (Tag::get()->unique() as $tag)
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" name="{{ $tag->tag }}" type="checkbox" id="{{ $tag->tag }}" value="{{ $tag->tag }}">
+                  <label class="form-check-label" for="{{ $tag->tag }}">{{ $tag->tag }}</label>
+                </div>
+              @endforeach
+             
+        
 
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-outline-dark" href="{{route('homepage')}}">Cancel</a>

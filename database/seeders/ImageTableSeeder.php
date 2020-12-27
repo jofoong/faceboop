@@ -16,7 +16,7 @@ class ImageTableSeeder extends Seeder
     public function run()
     {
         $a = new Image;
-        $a->image = '/images/caroline-sellers-oh5uPOTOwYQ-unsplash.jpg';
+        $a->image = 'caroline-sellers-oh5uPOTOwYQ-unsplash.jpg';
         $a->post_id = 1;
         $a->save();
 
