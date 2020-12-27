@@ -9,13 +9,18 @@ class Image extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'image',
-    ];
+    protected $fillable = ['image', 'imageable_id', 'imageable_type'];
 
+    public function imageable()
+    {
+        return $this->morphTo();
+    }
+    /*
     public function post()
     {
         //Each image can only belong to one user
         return $this->belongsTo('App\Models\Post');
     }
+    */
+
 }

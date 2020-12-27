@@ -15,4 +15,9 @@ class Profile extends Model
         //Each profile is associated with only one user
         return $this->belongsTo('App\Models\User');
     }
+
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
 }

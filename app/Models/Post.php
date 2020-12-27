@@ -14,7 +14,11 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'content', 'image'];
+    protected $fillable = [
+        'title', 
+        'content', 
+        //'image'
+    ];
     protected $guarded = ['user_id'];
 
     public function comments()
@@ -35,9 +39,18 @@ class Post extends Model
         return $this->belongsToMany('App\Models\Tag'); 
     }
 
+    /**
+     * Get the post's image.
+     */
+    public function image()
+    {
+        return $this->morphOne(Image::class, 'imageable');
+    }
+    /*
     public function image()
     {
         //A Post has a one-to-one r/s with its Image
         return $this->hasOne('App\Models\Image');
     }
+    */
 }
