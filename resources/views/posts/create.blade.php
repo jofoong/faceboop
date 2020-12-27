@@ -9,7 +9,7 @@
 @section('content')
 <div class="container-fluid my-3 border">
   @auth
-    <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::id()])}}">
+    <form method="POST" action="{{route('posts.store', ['user_id'=>Auth::id()])}}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
           <label for="title">Title</label>
@@ -21,27 +21,33 @@
           <textarea class="form-control" name="content" content="{{old('content')}}" id="content" rows="3" placeholder="Type post here..."></textarea>
         </div>
 
-        <form action="{{ route('images.store', ['user_id'=>Auth::id()]) }}" method="POST" enctype="multipart/form-data">
-          @csrf
-          <div class="row">
-              <div class="col-md-6">
-                  <input type="file" name="image" class="form-control">
-              </div>
-              <div class="col-md-6">
-                  <button type="submit" class="btn btn-success">Upload</button>
-              </div>
+        <div class="form-group">
+          <label for="image">Image</label>
+          <div class="col-md-6">
+            <input type="file" name="image" id="image">
           </div>
-        </form>
-
-        <div class="form-check form-check-inline">
-          Tags: 
-            @foreach (Tag::get()->unique() as $tag)
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" name="{{ $tag->tag }}" type="checkbox" id="{{ $tag->tag }}" value="{{ $tag->tag }}">
-                <label class="form-check-label" for="{{ $tag->tag }}">{{ $tag->tag }}</label>
-              </div>
-            @endforeach
+          <div class="col-md-6">
+            {{-- <button type="submit" class="btn btn-success">Upload</button>
+               --}}
+            
+          </div>
         </div>
+
+        Tags: 
+          {{--<select name="tags[]" multiple="multiple">
+            @foreach (Tag::get() as $tag)
+                <option value="{{ $tag->tag }}">{{ $tag->tag }}</option>
+            @endforeach
+        </select>--}} 
+           
+              @foreach (Tag::get()->unique() as $tag)
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" name="{{ $tag->tag }}" type="checkbox" id="{{ $tag->tag }}" value="{{ $tag->tag }}">
+                  <label class="form-check-label" for="{{ $tag->tag }}">{{ $tag->tag }}</label>
+                </div>
+              @endforeach
+             
+        
 
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-outline-dark" href="{{route('homepage')}}">Cancel</a>

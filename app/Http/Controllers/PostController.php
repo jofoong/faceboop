@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -16,7 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view("posts/index", ["posts"=>Post::get()->sortByDesc('timestamps')]);
+        $posts = Post::paginate(10);
+        //return view("posts/index", ["posts"=>Post::get()->sortByDesc('timestamps')]);
+        return view("posts/index", ["posts"=>Post::simplePaginate(10)]);
     }
 
     /**
@@ -40,6 +43,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|'
         ]);
         
         $p = new Post;
@@ -47,20 +51,34 @@ class PostController extends Controller
         $p->content = $validated['content'];
         $p->user_id = $user_id;
         $p->save();
-        if (isset($request->tags)) {
-            $p->tags()->sync($request->tags, false);
-        } else {
+        
+        /*$p->tags()->sync($request->get('tags'));
+        else {
             $p->tags()->sync(array());
-        }
-
-        /*foreach (Tag::get() as $tag) {
-           if (! ($request[$tag] === null)) {
-              $tag->posts()->attach($p->id);   
-           }
         }*/
+        
+        
+        foreach (Tag::get() as $tag) {
+           if (isset($request[$tag->tag])) {
+                $p->tags()->attach($tag->id);  
+           }
+        }
+        
+        if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->getClientOriginalName();
+            //$imagePath = $request->file('image')->storeAs('images', $image);
+            //$p->update(['image'=>$image]);
 
+            $image = new Image;
+            $image->image = $imageName;
+            $image->post_id = $p->id;
+            $image->save();
+
+            $request->image->move(public_path('images'), $imageName);
+        }
         session()->flash('message', 'Post created!');
         return redirect()->route('homepage');
+
     }
 
     /**
@@ -107,11 +125,13 @@ class PostController extends Controller
             $post->edited = 'Edited at ' . $post->created_at;
             $post->save();
 
+            $post->tags()->detach();
+
             foreach (Tag::get() as $tag) {
-                if (! ($request[$tag->tag] === null)) {
-                    $tag->posts()->attach($post->id);
+                if (isset($request[$tag->tag])) {
+                     $post->tags()->attach($tag->id);  
                 }
-            }
+             }
 
             session()->flash('message', 'Post edited.');
             return redirect()->route('posts.show', [Post::find($post_id)]);  

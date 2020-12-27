@@ -10,8 +10,8 @@
                 <h3><a href="{{route('posts.show', ['post'=>$post])}}">{{$post->title}}</a></h3>
                 <p>{{$post->content}}</p> 
                 <div>
-                    @if (! $post->image == null)
-                        <img src="{{ $post->image->url }}" width="350" height="350">        
+                    @if (isset($post->image))
+                        <img src="/images/{{ $post->image->image }}" width="350" height="350">        
                     @endif
                 </div>
                 <p> 
@@ -56,5 +56,8 @@
             @endif
         </div>
     @endforeach
+</div>
+<div class="d-flex justify-content-center">
+    {{ $posts->links() }}
 </div>
 @endsection

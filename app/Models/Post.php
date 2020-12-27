@@ -14,7 +14,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $fillable = ['title', 'content'];
+    protected $fillable = ['title', 'content', 'image'];
     protected $guarded = ['user_id'];
 
     public function comments()

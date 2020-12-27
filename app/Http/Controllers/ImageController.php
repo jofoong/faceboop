@@ -36,21 +36,16 @@ class ImageController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'url' => 'required',
-            'image' => 'required|dimensions:min_width=200,min_height=200|mimes:jpeg,png,jpg,gif,svg|'
+            'image' => 'required|image|dimensions:min_width=200,min_height=200|mimes:jpeg,png,jpg,gif,svg|'
         ]);
+
         $image = new Image;
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = $request->image->extension();
-            //$imageName = time() . '.' . $image->getExtension();
-            Image::make($image)->resize(350,350)->save(storage_path('/images/' . $imageName));
-            $image->url = $imageName
-        }
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->getExtension();
+        Image::make($image)->resize(350,350)->save(storage_path('/images/' . $imageName));
+        $image->url = '/images/' . $imageName;
 
-
-        
-        $request->image->move(public_path('images'), $imageName);
+        $image->save();
     }
 
     /**

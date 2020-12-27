@@ -16,7 +16,7 @@ class ImageTableSeeder extends Seeder
     public function run()
     {
         $a = new Image;
-        $a->url = '/images/default_profile_pic.png';
+        $a->image = 'caroline-sellers-oh5uPOTOwYQ-unsplash.jpg';
         $a->post_id = 1;
         $a->save();
 
