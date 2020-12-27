@@ -7,6 +7,19 @@
     <div class="row">
         <h3>{{$comment->post->title}}</h3>
         <p>{{$comment->post->content}}</p>
+        <div>
+            @if (! $comment->post->image == null)
+                <img src="{{ $comment->post->image->image }}" width="350" height="350">        
+            @endif
+        </div>
+        <p> 
+            @if ($comment->post::has('tags','>',0))
+                Tags: 
+                @foreach ($comment->post->tags as $tag)
+                    <a class="btn btn-outline-dark" href="{{route('tags.index', ['tag'=>$tag])}}" role="button">{{ $tag->tag }}</a>
+                @endforeach
+            @endif
+        </p> 
         <p>Posted by 
             <a href="{{ route('profiles.show', ['profile_id'=>$comment->post->user->id]) }}">{{$comment->post->user->name}}</a>
             at {{$comment->post->created_at}}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -40,6 +41,7 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|'
         ]);
         
         $p = new Post;
@@ -59,6 +61,13 @@ class PostController extends Controller
            }
         }*/
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->getClientOriginalName();
+            //Image::make($image)->resize(350,350)->save(storage_path('/images/' . $imageName));
+            $request->file('image')->storeAs('images', $p->user_id . '.' . $image);
+            //$image->url = '/images/' . $image;
+            $p->update(['image'=>$image]);
+        }
         session()->flash('message', 'Post created!');
         return redirect()->route('homepage');
     }

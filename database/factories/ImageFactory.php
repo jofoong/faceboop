@@ -23,7 +23,7 @@ class ImageFactory extends Factory
     public function definition()
     {
         return [
-            'url' => $this->faker->randomElement(
+            'image' => $this->faker->randomElement(
                 [
                     '/images/caroline-sellers-oh5uPOTOwYQ-unsplash.jpg',
                     '/images/masha-fathi-_PL4luMSMpM-unsplash.jpg',

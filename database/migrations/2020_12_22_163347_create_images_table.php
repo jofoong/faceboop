@@ -15,7 +15,7 @@ class CreateImagesTable extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('url', 2083);
+            $table->string('image', 2083)->nullable();
             $table->bigInteger('post_id')->unsigned();
             $table->timestamps();
 
@@ -23,6 +23,11 @@ class CreateImagesTable extends Migration
             $table->foreign('post_id')->references('id')->
                 on('posts')->onDelete('cascade')->onUpdate('cascade');
         });
+        
+        /*
+        Schema::table('posts', function(Blueprint $table) {
+            $table->string('image')->nullable();
+        });*/
     }
 
     /**

@@ -11,7 +11,7 @@
                 <p>{{$post->content}}</p> 
                 <div>
                     @if (! $post->image == null)
-                        <img src="{{ $post->image->url }}" width="350" height="350">        
+                        <img src="{{ $post->image->image }}" width="350" height="350">        
                     @endif
                 </div>
                 <p> 
