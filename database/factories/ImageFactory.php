@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Image;
 use App\Models\Post;
+use App\Models\Profile;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ImageFactory extends Factory
@@ -22,6 +23,9 @@ class ImageFactory extends Factory
      */
     public function definition()
     {
+        $imageableType = $this->faker->randomElement([Post::class, Profile::class]);
+        $imageableID = $imageableType::inRandomOrder()->first()->id;
+
         return [
             'image' => $this->faker->randomElement(
                 [
@@ -38,8 +42,11 @@ class ImageFactory extends Factory
                     'kevin-bree-q5FGsXNFtbk-unsplash.jpg',
                 ]
             ),
-            //Assigns each image to a random post
-            'post_id' => Post::inRandomOrder()->first()->id,
+
+            //Assigns each image to a random post or profile
+            'imageable_id' => $imageableID,
+            //Then assign the type
+            'imageable_type' => $imageableType,
         ];
     }
 }

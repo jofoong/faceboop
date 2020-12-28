@@ -1,3 +1,7 @@
+@php
+    use App\Models\Profile;
+@endphp
+
 @extends("layouts.app")
 
 @section('title', 'Home')
@@ -18,14 +22,14 @@
                     @if ($post::has('tags','>',0))
                         Tags: 
                         @foreach ($post->tags as $tag)
-                            <a class="btn btn-outline-dark" href="{{route('tags.index', ['tag'=>$tag])}}" role="button">{{ $tag->tag }}</a>
+                            <a class="btn btn-outline-dark" href="{{ route('tags.index', ['tag'=>$tag]) }}" role="button">{{ $tag->tag }}</a>
                         @endforeach
                     @endif
                 </p> 
             </div>
             <div class="row">
                 <div class="col-8">
-                    Posted by <a href="{{route('profiles.show', ['profile_id'=>$post->user->id])}}">{{$post->user->name}}</a> at {{$post->created_at}}
+                    Posted by <a href="{{route('profiles.show', ['profile'=>$post->user->profile])}}">{{$post->user->name}}</a> at {{$post->created_at}}
                 </div>
                 <div class="col-4">
                     @if (! ($post->edited === null))

@@ -39,13 +39,12 @@ class Post extends Model
         return $this->belongsToMany('App\Models\Tag'); 
     }
 
-    /**
-     * Get the post's image.
-     */
     public function image()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        //One post has one image.
+        return $this->morphOne('App\Models\Image', 'imageable');
     }
+
     /*
     public function image()
     {

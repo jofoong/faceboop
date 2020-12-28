@@ -11,16 +11,22 @@ class Image extends Model
 
     protected $fillable = ['image', 'imageable_id', 'imageable_type'];
 
+    //Image can belong to either a post or profile image.
     public function imageable()
     {
         return $this->morphTo();
     }
+
     /*
     public function post()
     {
         //Each image can only belong to one user
         return $this->belongsTo('App\Models\Post');
     }
-    */
 
+    public function profile()
+    {
+        return $this->belongsTo('App\Models\Profile');
+    }
+    */
 }

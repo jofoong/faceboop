@@ -18,7 +18,9 @@ use App\Http\Controllers\TagController;
 */
 Route::get('/', [PostController::class, "index"])->name('homepage');
 
-Route::get('/profile/{profile_id}', [ProfileController::class, "show"])->name('profiles.show');
+Route::get('/profile/{profile}', [ProfileController::class, "show"])->name('profiles.show');
+Route::post('/profile/{profile}', [ProfileController::class, "update"])->name('profile.update')->middleware('auth');
+Route::get('/profile/{profile}/edit', [ProfileController::class, "edit"])->name('profiles.edit');
 
 Route::get('/posts/create', [PostController::class, "create"])->name('posts.create')->middleware('auth');
 Route::post('posts/user/{user_id}', [PostController::class, "store"])->name('posts.store')->middleware('auth');

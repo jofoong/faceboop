@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class ProfileController extends Controller
@@ -44,10 +45,9 @@ class ProfileController extends Controller
      * @param  \App\Models\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function show($profile_id)
+    public function show(Profile $profile)
     {
-        $currentProfile = Profile::findOrFail($profile_id);
-        return view("profile/show", ["profile"=>$currentProfile]);
+        return view("profiles.show", ["profile"=>$profile]);
     }
 
     /**
@@ -58,7 +58,7 @@ class ProfileController extends Controller
      */
     public function edit(Profile $profile)
     {
-        
+        return view("profiles.edit", ["profile"=>$profile]);
     }
 
     /**
@@ -70,7 +70,25 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        //
+        $validated = $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|'
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = $request->file('image')->getClientOriginalName();
+            $image = new Image;
+            $image->image = $imageName;
+            $image->imageable_id = $profile->id;
+            $image->imageable_type = 'App\Models\Profile';
+            $image->save();
+
+            $request->image->move(public_path('images'), $imageName);
+        }
+        
+        $profile->save();
+
+        session()->flash('message', 'Profile image edited!');
+        return view('profiles.show', ["profile"=>$profile]);
     }
 
     /**

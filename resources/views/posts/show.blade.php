@@ -1,5 +1,7 @@
+@php
+    use App\Models\Profile;
+@endphp
 @extends("layouts.app")
-
 @section('title', "$post->title")
 
 @section('content')
@@ -9,8 +11,8 @@
         <p>{{$post->content}}</p>
     </div>
     <div>
-        @if (! $post->image == null)
-            <img src="{{ $post->image->image }}" width="350" height="350">        
+        @if (isset($post->image))
+            <img src="/images/{{ $post->image->image }}" width="350" height="350">        
         @endif
     </div>
     <div class="row">
@@ -25,7 +27,7 @@
     </div>
     <div class="row">
         <div class="col-8">
-            Posted by <a href="{{route('profiles.show', ['profile_id'=>$post->user_id])}}">{{$post->user->name}}</a> at {{$post->created_at}}
+            Posted by <a href="{{ route('profiles.show', ['profile'=>$post->user->profile]) }}">{{$post->user->name}}</a> at {{$post->created_at}}
         </div>
         <div class="col-4">
             @if (! ($post->edited === null))
@@ -59,7 +61,7 @@
                     </a>
                 </div>
                 <div class="col-3">
-                    Posted by <a href="{{ route('profiles.show', ['profile_id'=>$comment->user->id]) }}">{{$comment->user->name}}</a>
+                    Posted by <a href="{{ route('profiles.show', ['profile'=>$comment->user->profile]) }}">{{$comment->user->name}}</a>
                 </div>
 
                 <div class="col-3">

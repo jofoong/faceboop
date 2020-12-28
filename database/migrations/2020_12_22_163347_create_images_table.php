@@ -17,13 +17,8 @@ class CreateImagesTable extends Migration
             $table->id();
             $table->string('image', 2083)->nullable();
             $table->integer('imageable_id')->unsigned();
-            $table->integer('imageable_type')->unsigned();
-            //$table->bigInteger('post_id')->unsigned();
+            $table->string('imageable_type');
             $table->timestamps();
-
-            //Set the foreign key constraints
-            //$table->foreign('post_id')->references('id')->
-              //  on('posts')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

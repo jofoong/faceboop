@@ -51,13 +51,7 @@ class PostController extends Controller
         $p->content = $validated['content'];
         $p->user_id = $user_id;
         $p->save();
-        
-        /*$p->tags()->sync($request->get('tags'));
-        else {
-            $p->tags()->sync(array());
-        }*/
-        
-        
+
         foreach (Tag::get() as $tag) {
            if (isset($request[$tag->tag])) {
                 $p->tags()->attach($tag->id);  
@@ -66,12 +60,10 @@ class PostController extends Controller
         
         if ($request->hasFile('image')) {
             $imageName = $request->file('image')->getClientOriginalName();
-            //$imagePath = $request->file('image')->storeAs('images', $image);
-            //$p->update(['image'=>$image]);
-
             $image = new Image;
             $image->image = $imageName;
-            $image->post_id = $p->id;
+            $image->imageable_id = $p->id;
+            $image->imageable_type = 'App\Models\Post';
             $image->save();
 
             $request->image->move(public_path('images'), $imageName);
