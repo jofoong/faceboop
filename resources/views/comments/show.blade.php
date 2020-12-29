@@ -9,7 +9,7 @@
         <p>{{$comment->post->content}}</p>
         <div>
             @if (! $comment->post->image == null)
-                <img src="{{ $comment->post->image->image }}" width="350" height="350">        
+                <img src="/images/{{ $comment->post->image->image }}" width="350" height="350">        
             @endif
         </div>
         <p> 
@@ -21,7 +21,7 @@
             @endif
         </p> 
         <p>Posted by 
-            <a href="{{ route('profiles.show', ['profile_id'=>$comment->post->user->id]) }}">{{$comment->post->user->name}}</a>
+            <a href="{{ route('profiles.show', ['profile'=>$comment->user->profile]) }}">{{$comment->post->user->name}}</a>
             at {{$comment->post->created_at}}
         </p>
     </div>
@@ -33,7 +33,7 @@
             <p>{{$comment->comment}}</p>
         </div>
         <div class="col-3">
-            <p>Posted by <a href="{{ route('profiles.show', ['profile_id'=>$comment->user->id]) }}">{{$comment->user->name}}</a></p>
+            <p>Posted by <a href="{{ route('profiles.show', ['profile'=>$comment->user->profile]) }}">{{$comment->user->name}}</a></p>
         </div>
         <div class="col-3">
             @if (! ($comment->edited === null))
@@ -43,8 +43,8 @@
     </div>
     <div class="row">
         {{-- Only allow admin/original commenter to edit/delete their comment--}}
-        @if(Auth::id() === $comment->user_id || Gate::allows('isAdmin')) 
-            @can('update-comment', $comment)
+        @if(Auth::id() == $comment->user_id || Gate::allows('isAdmin')) 
+            {{-- @can('update-comment', $comment) --}}
                 <form method="POST" action="{{ route('comments.update', ['comment_id'=>$comment->id, 'user_id'=>Auth::id()]) }}">
                     @csrf
                     <div class="form-group">
@@ -59,7 +59,9 @@
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-            @endcan
+            {{-- @endcan --}}
+                
+    
         @endif
     </div>
 </div>    

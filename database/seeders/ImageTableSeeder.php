@@ -18,7 +18,7 @@ class ImageTableSeeder extends Seeder
         $a = new Image;
         $a->imageable_id = 1;
         $a->imageable_type = 'App\Models\Post';
-        $a->image = 'caroline-sellers-oh5uPOTOwYQ-unsplash.jpg';
+        $a->image = 'gettyimages-1189299527-612x612.jpg';
         $a->save();
 
         Image::factory()->times(20)->create();

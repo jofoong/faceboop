@@ -17,9 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(10);
-        //return view("posts/index", ["posts"=>Post::get()->sortByDesc('timestamps')]);
-        return view("posts/index", ["posts"=>Post::simplePaginate(10)]);
+        return view("posts/index", ["posts"=>Post::simplePaginate(20)]);
     }
 
     /**
@@ -52,12 +50,14 @@ class PostController extends Controller
         $p->user_id = $user_id;
         $p->save();
 
+        //For every selected tag, store it to the post.
         foreach (Tag::get() as $tag) {
            if (isset($request[$tag->tag])) {
                 $p->tags()->attach($tag->id);  
            }
         }
         
+        //Save the image with its filename and extension.
         if ($request->hasFile('image')) {
             $imageName = $request->file('image')->getClientOriginalName();
             $image = new Image;
@@ -70,7 +70,6 @@ class PostController extends Controller
         }
         session()->flash('message', 'Post created!');
         return redirect()->route('homepage');
-
     }
 
     /**
@@ -111,14 +110,26 @@ class PostController extends Controller
             'content' => 'required',
             ]);
 
+            if ($request->hasFile('image')) {
+                $request->validate(['image' => 'image|mimes:jpeg,png,jpg,gif,svg|']);
+                $imageName = $request->file('image')->getClientOriginalName();
+                $image = new Image;
+                $image->image = $imageName;
+                $image->imageable_id = $post_id;
+                $image->imageable_type = 'App\Models\Post';
+                $image->save();
+    
+                $request->image->move(public_path('images'), $imageName);
+            }
+
             $post = Post::findOrFail($post_id);
             $post->title = $validated['title'];     
             $post->content = $validated['content'];     
             $post->edited = 'Edited at ' . $post->created_at;
             $post->save();
 
+            //The post will have only the newly selected tags.
             $post->tags()->detach();
-
             foreach (Tag::get() as $tag) {
                 if (isset($request[$tag->tag])) {
                      $post->tags()->attach($tag->id);  

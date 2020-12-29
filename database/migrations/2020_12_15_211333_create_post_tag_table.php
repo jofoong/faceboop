@@ -17,7 +17,7 @@ class CreatePostTagTable extends Migration
             //composite key of 'post_id' and 'tag_id'
             $table->primary(['post_id', 'tag_id']);
             $table->bigInteger('post_id')->unsigned();
-            $table->bigInteger('tag_id')->unsigned();
+            $table->bigInteger('tag_id')->unsigned()->nullable();
             $table->timestamps();
 
             //Set the referential integrity

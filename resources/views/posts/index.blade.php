@@ -19,7 +19,7 @@
                     @endif
                 </div>
                 <p> 
-                    @if ($post::has('tags','>',0))
+                    @if (isset($post->tags))
                         Tags: 
                         @foreach ($post->tags as $tag)
                             <a class="btn btn-outline-dark" href="{{ route('tags.index', ['tag'=>$tag]) }}" role="button">{{ $tag->tag }}</a>
@@ -29,18 +29,17 @@
             </div>
             <div class="row">
                 <div class="col-8">
-                    Posted by <a href="{{route('profiles.show', ['profile'=>$post->user->profile])}}">{{$post->user->name}}</a> at {{$post->created_at}}
+                    Posted by <a href="{{ route('profiles.show', ['profile'=>$post->user->profile]) }}">{{$post->user->name}}</a> at {{$post->created_at}}
                 </div>
                 <div class="col-4">
                     @if (! ($post->edited === null))
                     <i>{{ $post->edited }}</i>
                     @endif
                 </div>
+                <div>Comments ({{$post->comments->count()}})</div>
             </div>
             
-            <a type="button" class="btn btn-light" href="{{ route('posts.show', ['post'=>$post]) }}">
-                Comments ({{$post->comments->count()}})
-            </a>
+            
 
             {{-- Only show edit and delete buttons on a post if user was poster --}}
             @if(Auth::id() == $post->user_id || Gate::allows('isAdmin'))

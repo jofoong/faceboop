@@ -29,9 +29,9 @@ Route::get('/posts/{post}', [PostController::class, "show"])->name('posts.show')
 Route::get('posts/{post}/edit', [PostController::class, "edit"])->name('posts.edit');
 Route::delete('/posts/{post}', [PostController::class, "destroy"])->name('posts.destroy')->middleware('auth');
 
-
 Route::post('comments/user/{user_id}/post/{post_id}', [CommentController::class, "store"])->name('comments.store')->middleware('auth');
 Route::get('/comments/{comment}', [CommentController::class, "show"])->name('comments.show');
+Route::get('comments/{comment}/edit', [CommentController::class, "edit"])->name('comments.edit');
 Route::post('comments/{comment_id}/user/{user_id}', [CommentController::class, "update"])->name('comments.update')->middleware('auth');
 Route::delete('/comments/{comment}', [CommentController::class, "destroy"])->name('comments.destroy')->middleware('auth');
 

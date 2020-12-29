@@ -7,8 +7,8 @@
 @section('content')
 <div class="container-fluid my-3 border p-4">
     <div class="row">
-        <h3>{{$post->title}}</h3>
-        <p>{{$post->content}}</p>
+        <h3>{{ $post->title }}</h3>
+        <p>{{ $post->content }}</p>
     </div>
     <div>
         @if (isset($post->image))
@@ -71,7 +71,7 @@
                 </div>
                 {{-- If original commenter, show edit and delete buttons --}}
                 <div class="col-3">
-                    @if(Auth::id() === $comment->user_id || Gate::allows('isAdmin'))
+                    @if(Auth::id() == $comment->user_id || Gate::allows('isAdmin'))
                         <form method="GET" action="{{ route('comments.show', ['comment'=>$comment, 'user'=>Auth::user()]) }}" class="form-check form-check-inline">
                             @csrf
                             <button type="submit" class="btn btn-primary">Edit</button>
