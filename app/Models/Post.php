@@ -44,12 +44,4 @@ class Post extends Model
         //One post has one image.
         return $this->morphOne('App\Models\Image', 'imageable');
     }
-
-    /*
-    public function image()
-    {
-        //A Post has a one-to-one r/s with its Image
-        return $this->hasOne('App\Models\Image');
-    }
-    */
 }

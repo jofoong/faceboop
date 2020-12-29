@@ -16,12 +16,12 @@
             @if ($comment->post::has('tags','>',0))
                 Tags: 
                 @foreach ($comment->post->tags as $tag)
-                    <a class="btn btn-outline-dark" href="{{route('tags.index', ['tag'=>$tag])}}" role="button">{{ $tag->tag }}</a>
+                    <a class="btn btn-outline-dark" href="{{route('tags.index', ['tag'=>$tag])}}" role="button" aria-label="{{ $tag->tag s}}">{{ $tag->tag }}</a>
                 @endforeach
             @endif
         </p> 
         <p>Posted by 
-            <a href="{{ route('profiles.show', ['profile'=>$comment->user->profile]) }}">{{$comment->post->user->name}}</a>
+            <a href="{{ route('profiles.show', ['profile'=>$comment->user->profile]) }}" alt="{{ $comment->post->user->name }} link">{{ $comment->post->user->name }}</a>
             at {{$comment->post->created_at}}
         </p>
     </div>
@@ -33,7 +33,7 @@
             <p>{{$comment->comment}}</p>
         </div>
         <div class="col-3">
-            <p>Posted by <a href="{{ route('profiles.show', ['profile'=>$comment->user->profile]) }}">{{$comment->user->name}}</a></p>
+            <p>Posted by <a href="{{ route('profiles.show', ['profile'=>$comment->user->profile]) }}" alt="{{ $comment->user->name }}">{{$comment->user->name}}</a></p>
         </div>
         <div class="col-3">
             @if (! ($comment->edited === null))
@@ -44,11 +44,10 @@
     <div class="row">
         {{-- Only allow admin/original commenter to edit/delete their comment--}}
         @if(Auth::id() == $comment->user_id || Gate::allows('isAdmin')) 
-            {{-- @can('update-comment', $comment) --}}
                 <form method="POST" action="{{ route('comments.update', ['comment_id'=>$comment->id, 'user_id'=>Auth::id()]) }}">
                     @csrf
                     <div class="form-group">
-                        <label class="sr-only" style="visibility:hidden" id="comment" >Comment</label>
+                        <label class="sr-only" style="visibility:hidden" id="comment">Comment</label>
                         <textarea class="form-control" name="comment" value="{{old('comment')}}" id="comment" rows="3">{{ $comment->comment }}</textarea>            
                     </div>
                     <button type="submit" class="btn btn-primary">Edit</button>
@@ -59,9 +58,6 @@
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-            {{-- @endcan --}}
-                
-    
         @endif
     </div>
 </div>    

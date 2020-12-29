@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Profile;
 use App\Models\Image;
 use Illuminate\Http\Request;
@@ -40,7 +39,6 @@ class ProfileController extends Controller
     public function update(Request $request, Profile $profile)
     {
         $validated = $request->validate([
-            //'image' => 'image|mimes:jpeg,png,jpg,gif,svg|',
             'bio' => 'max:500',
             'location' => 'max:200'
         ]);

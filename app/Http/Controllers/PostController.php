@@ -111,6 +111,7 @@ class PostController extends Controller
             ]);
 
             if ($request->hasFile('image')) {
+                Image::where('imageable_id', $post_id)->delete();
                 $request->validate(['image' => 'image|mimes:jpeg,png,jpg,gif,svg|']);
                 $imageName = $request->file('image')->getClientOriginalName();
                 $image = new Image;

@@ -42,8 +42,8 @@
             <form method="POST" action="{{ route('comments.store', ['user_id'=>Auth::id(), 'post_id'=>$post->id]) }}">
                 @csrf
                 <div class="form-group">
-                    <label style="visibility:hidden" id="comment">Comment</label>
-                    <textarea class="form-control" name="comment" value="{{ old('comment') }}" id="comment" rows="3" placeholder="Type comment..."></textarea>            
+                    <label class="sr-only" style="visibility:hidden" id="comment">Comment</label>
+                    <textarea class="form-control" name="comment" value="{{ old('comment') }}" id="comment" rows="3" placeholder="Type comment..." aria-required="true"></textarea>            
                 </div>
                 <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Comment</button>
             </form>

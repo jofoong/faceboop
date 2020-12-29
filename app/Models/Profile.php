@@ -20,11 +20,4 @@ class Profile extends Model
     {
         return $this->morphOne('App\Models\Image', 'imageable');
     }
-
-    /*
-    public function image()
-    {
-        return $this->hasOne('App\Models\Image');
-    }
-    */
 }

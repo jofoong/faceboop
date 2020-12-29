@@ -14,16 +14,16 @@
                 @csrf
                 <div class="form-group">
                     <label id="title" >Title</label>
-                    <textarea class="form-control" name="title" value="{{ old('title') }}" id="title" rows="1">{{ $post->title }}</textarea>
+                    <textarea class="form-control" name="title" value="{{ old('title') }}" id="title" rows="1" aria-required="true">{{ $post->title }}</textarea>
                 </div>
                 <div class="form-group">
                   <label id="content" >Post</label>
-                  <textarea class="form-control" name="content" value="{{old('content')}}" id="content" rows="3">{{ $post->content }}</textarea>            
+                  <textarea class="form-control" name="content" value="{{old('content')}}" id="content" rows="3" aria-required="true">{{ $post->content }}</textarea>            
                 </div>
                 <div class="form-group">
                   <label for="image">Image</label>
                   <div class="col-md-6">
-                      <input type="file" name="image" id="image">
+                      <input type="file" name="image" id="image" aria-required="false">
                       </input>
                   </div>
                 </div>
@@ -32,7 +32,7 @@
                     Tags: 
                       @foreach (Tag::get()->unique() as $tag)
                         <div class="form-check form-check-inline">
-                          <input class="form-check-input" name="{{ $tag->tag }}" type="checkbox" id="{{ $tag->tag }}" value="{{ $tag->tag }}">
+                          <input class="form-check-input" name="{{ $tag->tag }}" type="checkbox" id="{{ $tag->tag }}" value="{{ $tag->tag }}" aria-required="false">
                           <label class="form-check-label" for="{{ $tag->tag }}">{{ $tag->tag }}</label>
                         </div>
                       @endforeach

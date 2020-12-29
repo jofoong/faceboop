@@ -16,17 +16,4 @@ class Image extends Model
     {
         return $this->morphTo();
     }
-
-    /*
-    public function post()
-    {
-        //Each image can only belong to one user
-        return $this->belongsTo('App\Models\Post');
-    }
-
-    public function profile()
-    {
-        return $this->belongsTo('App\Models\Profile');
-    }
-    */
 }
